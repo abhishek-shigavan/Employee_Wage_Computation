@@ -15,6 +15,8 @@ totalWage=0
 
 declare -a dailyWage_array
 
+declare -A day_dailyWage_dictonary
+
 function getWorkingHour()
 {
         case $1 in
@@ -47,6 +49,8 @@ do
 
                 dailyWage_array["$counter"]="$dailyWage"
                 ((counter++))
+
+                day_dailyWage_dictonary["$day"]="$dailyWage"
         else
                 break
         fi
@@ -54,5 +58,11 @@ done
 
 echo ${dailyWage_array[@]}
 
+for day in ${!day_dailyWage_dictonary[@]}
+do
+        echo $day=${day_dailyWage_dictonary[$day]}
+done
+
 echo " Total Wage : $totalWage "
+
 
