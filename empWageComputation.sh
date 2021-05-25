@@ -4,44 +4,46 @@ echo " Welcome To Employee Wage Computation "
 
 isPresent=1
 isParttimePresent=2
-wagePerHour=20
 dayPerMonth=20
-maximumWorkingDay=20
-maximumWorkingHour=100
+wagePerHour=20
+maxWorkingDay=20
+maxWorkingHour=100
 
-totalWage=0
 totalWorkingHour=0
+totalWage=0
+
+function getWorkingHour()
+{
+        case $1 in
+                $isPresent)
+                        empWorkingHour=8 ;;
+
+                $isParttimePresent)
+                        empWorkingHour=4 ;;
+
+                *)
+                        empWorkingHour=0 ;;
+        esac
+
+        echo $empWorkingHour
+}
 
 for((day=1; day<=$dayPerMonth; day++))
 do
 
-        if [ $day -le $maximumWorkingDay -a $totalWorkingHour -lt $maximumWorkingHour ]
+        if [ $day -le $maxWorkingDay -a $totalWorkingHour -lt $maxWorkingHour ]
         then
-                attendanceChecker=$(($RANDOM%3))
 
-                case $attendanceChecker in
+                dailyWorkingHour="$( getWorkingHour $(($RANDOM%3)) )"
 
-                $isPresent)
-                        empWorkingHour=8
-                        echo " Employee is Present " ;;
-                $isParttimePresent)
-                        empWorkingHour=4
-                        echo " Employee is Part Time Present " ;;
-                *)
-                        empWorkingHour=0
-                        echo " Employee is Absent " ;;
+                totalWorkingHour=$(( $totalWorkingHour + $dailyWorkingHour ))
 
-                esac
+                dailyWage=$(( $dailyWorkingHour * $wagePerHour ))
 
-                totalWorkingHour=$(($totalWorkingHour + $empWorkingHour))
-
-                dailyWage=$(($empWorkingHour * $wagePerHour))
-
-                totalWage=$(($totalWage + $dailyWage))
+                totalWage=$(( $totalWage + $dailyWage ))
         else
                 break
         fi
-
 done
 
 echo " Total Wage : $totalWage "
