@@ -8,18 +8,18 @@ wagePerHour=20
 
         attendanceChecker=$(($RANDOM%3))
 
-        if [ $attendanceChecker -eq $isPresent ]
-        then
+case $attendanceChecker in
+
+        $isPresent)
                 empWorkingHour=8
-                echo " Employee is Present "
-        elif [ $attendanceChecker -eq $isParttimePresent ]
-        then
+                echo " Employee is Present " ;;
+        $isParttimePresent)
                 empWorkingHour=4
-                echo " Employee is Part Time Present "
-        else
+                echo " Employee is Part Time Present " ;;
+        *)
                 empWorkingHour=0
-                echo " Employee is Absent "
-        fi
+                echo " Employee is Absent " ;;
+esac
 
         wage=$(($empWorkingHour * $wagePerHour))
 
