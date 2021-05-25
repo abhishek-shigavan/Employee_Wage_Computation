@@ -8,9 +8,12 @@ dayPerMonth=20
 wagePerHour=20
 maxWorkingDay=20
 maxWorkingHour=100
+counter=0
 
 totalWorkingHour=0
 totalWage=0
+
+declare -a dailyWage_array
 
 function getWorkingHour()
 {
@@ -41,10 +44,15 @@ do
                 dailyWage=$(( $dailyWorkingHour * $wagePerHour ))
 
                 totalWage=$(( $totalWage + $dailyWage ))
+
+                dailyWage_array["$counter"]="$dailyWage"
+                ((counter++))
         else
                 break
         fi
 done
+
+echo ${dailyWage_array[@]}
 
 echo " Total Wage : $totalWage "
 
