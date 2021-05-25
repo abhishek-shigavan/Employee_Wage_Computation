@@ -6,15 +6,20 @@ isPresent=1
 isParttimePresent=2
 wagePerHour=20
 dayPerMonth=20
+maximumWorkingDay=20
+maximumWorkingHour=100
 
-monthlyWage=0
+totalWage=0
+totalWorkingHour=0
 
 for((day=1; day<=$dayPerMonth; day++))
 do
 
-        attendanceChecker=$(($RANDOM%3))
+        if [ $day -le $maximumWorkingDay -a $totalWorkingHour -lt $maximumWorkingHour ]
+        then
+                attendanceChecker=$(($RANDOM%3))
 
-        case $attendanceChecker in
+                case $attendanceChecker in
 
                 $isPresent)
                         empWorkingHour=8
@@ -25,11 +30,19 @@ do
                 *)
                         empWorkingHour=0
                         echo " Employee is Absent " ;;
-        esac
 
-        dailyWage=$(($empWorkingHour * $wagePerHour))
-        monthlyWage=$(($monthlyWage + $dailyWage))
+                esac
+
+                totalWorkingHour=$(($totalWorkingHour + $empWorkingHour))
+
+                dailyWage=$(($empWorkingHour * $wagePerHour))
+
+                totalWage=$(($totalWage + $dailyWage))
+        else
+                break
+        fi
+
 done
 
-echo " Monthly Wage : $monthlyWage "
+echo " Total Wage : $totalWage "
 
